@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
     {
 
         _cameraMove = InputSystem.actions.FindAction("Look");
-        currentPitch = transform.localEulerAngles.x;
+        currentPitch = transform.eulerAngles.x;
     }
 
     // Update is called once per frame
