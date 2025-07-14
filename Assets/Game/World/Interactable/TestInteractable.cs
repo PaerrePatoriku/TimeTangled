@@ -6,6 +6,7 @@ public class TestInteractable : MonoBehaviour, Interactable
     [SerializeField]
     InteractionPrompt[] prompts;
 
+
     public InteractionPrompt[] GetInteractionPrompts()
     {
         return prompts;

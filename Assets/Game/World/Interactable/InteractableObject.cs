@@ -25,9 +25,7 @@ public class InteractableObject : MonoBehaviour
     {
         Debug.Log("ENTERING INTERACTION AREA");
         var prompts = interactable.GetInteractionPrompts();
-        foreach (var prompt in prompts)
-        {
-            Debug.Log(prompt.getActionBindingDisplayString());
-        }
+        GameGlobals.instance.gameUIEventBus.UpdateEvent(new EnterInteractionPromptArgs(prompts));
+
     }
 }

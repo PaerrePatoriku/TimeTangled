@@ -37,6 +37,7 @@ public class PlayerObjectInteraction : MonoBehaviour
         }
         else if (currentInteractableObject != null)
         {
+            GameGlobals.instance.gameUIEventBus.UpdateEvent(new ExitInteractionPromptArgs());
             currentInteractableObject = null;
         }
     }
