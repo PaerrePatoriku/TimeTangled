@@ -3,10 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-public class TestArgs : EventArgs
-{
-    public string ArgA { get; set; }
-}
+
 
 //Container luokka jokaiselle UI event bussille.
 public class GameUIEventBus : MonoBehaviour
