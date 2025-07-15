@@ -310,8 +310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedModifier: 8
   sprintMultiplier: 1.5
-  jumpImpulseModifier: 15
-  gravityModifier: 0.5
+  jumpImpulseModifier: 9
+  gravityModifier: 0.3
   detectionLayerMask:
     serializedVersion: 2
     m_Bits: 1

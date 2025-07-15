@@ -1,3 +1,4 @@
+using Assets.Game.World.Interactable;
 using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
@@ -21,11 +22,10 @@ public class InteractableObject : MonoBehaviour
     {
         interactable.Interact();
     }
-    public void PromptInteraction()
+    public void PromptInteraction(out InteractionPrompt[] prompts)
     {
         Debug.Log("ENTERING INTERACTION AREA");
-        var prompts = interactable.GetInteractionPrompts();
+        prompts = interactable.GetInteractionPrompts();
         GameGlobals.instance.gameUIEventBus.UpdateEvent(new EnterInteractionPromptArgs(prompts));
-
     }
 }

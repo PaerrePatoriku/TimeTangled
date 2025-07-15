@@ -14,13 +14,13 @@ namespace Assets.Game.World.Interactable
         public string promptInputActionName;
         public string promptText;
 
-        public InputAction promptAction()
+        public InputAction getPromptAction()
         {
             return InputSystem.actions.FindAction(promptInputActionName);
         }
         public string getActionBindingDisplayString()
         {
-            InputAction action = promptAction();
+            InputAction action = getPromptAction();
             return action.GetBindingDisplayString(InputBinding.MaskByGroup("Keyboard&Mouse"));
         }
     }

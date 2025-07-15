@@ -1,4 +1,8 @@
+using Assets.Game.World.Interactable;
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class PlayerObjectInteraction : MonoBehaviour
 {
@@ -9,11 +13,16 @@ public class PlayerObjectInteraction : MonoBehaviour
     InteractableObject currentInteractableObject;
     Camera _raycastCamera;
 
+    InteractionPrompt[] _currentPossibleInteractions; 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _raycastCamera = Camera.main;
+
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -31,7 +40,11 @@ public class PlayerObjectInteraction : MonoBehaviour
                 if (currentInteractableObject == null || currentInteractableObject != interactableObject )
                 {
                     currentInteractableObject = interactableObject;
-                    currentInteractableObject.PromptInteraction();
+                    currentInteractableObject.PromptInteraction(out var prompts);
+                    if (prompts != null)
+                    {
+                        _currentPossibleInteractions = prompts;
+                    }
                 }
             }
         }
@@ -39,8 +52,22 @@ public class PlayerObjectInteraction : MonoBehaviour
         {
             GameGlobals.instance.gameUIEventBus.UpdateEvent(new ExitInteractionPromptArgs());
             currentInteractableObject = null;
+            _currentPossibleInteractions = null;
         }
+        if (_currentPossibleInteractions != null && _currentPossibleInteractions.Length > 0)
+        {
+            foreach (var inputPrompt in _currentPossibleInteractions)
+            {
+                if (inputPrompt.getPromptAction().WasPressedThisFrame())
+                {
+                    currentInteractableObject.CallInteraction();
+                    break;
+                }
+            }
+        }
+
     }
+
     Vector3 GetInteractionDirectionRay()
     {
         return _raycastCamera.transform.TransformDirection(Vector3.forward);
