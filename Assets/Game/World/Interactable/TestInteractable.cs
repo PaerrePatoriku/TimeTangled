@@ -12,7 +12,7 @@ public class TestInteractable : MonoBehaviour, Interactable
         return prompts;
     }
 
-    public void Interact()
+    public void Interact(InteractionEvent e)
     {
         Debug.Log("INTERACTION WAS TRIGGERED"); 
     }

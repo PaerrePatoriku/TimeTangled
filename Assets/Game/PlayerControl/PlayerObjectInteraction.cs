@@ -12,14 +12,18 @@ public class PlayerObjectInteraction : MonoBehaviour
     LayerMask _interactableLayerMask;
     InteractableObject currentInteractableObject;
     Camera _raycastCamera;
+    GameObject _player;
 
-    InteractionPrompt[] _currentPossibleInteractions; 
+
+    InteractionPrompt[] _currentPossibleInteractions;
+    InteractionPrompt _lastActionPrompt;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _raycastCamera = Camera.main;
-
+        _player = this.transform.parent.gameObject;
+        _lastActionPrompt = null;
     }
 
 
@@ -27,6 +31,13 @@ public class PlayerObjectInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if (_lastActionPrompt != null && _lastActionPrompt.getPromptAction().WasReleasedThisFrame())
+        {
+            _lastActionPrompt.InteractableObject.CallInteraction(new InteractionEvent(_lastActionPrompt, _player));
+            return;
+        }
+        
         Vector3 startPos = _raycastCamera.transform.position;
         Vector3 endPos = GetInteractionDirectionRay() * _interactionDistanceMax;
         Debug.DrawRay(startPos, endPos, Color.aliceBlue);
@@ -44,6 +55,7 @@ public class PlayerObjectInteraction : MonoBehaviour
                     if (prompts != null)
                     {
                         _currentPossibleInteractions = prompts;
+                        
                     }
                 }
             }
@@ -54,13 +66,22 @@ public class PlayerObjectInteraction : MonoBehaviour
             currentInteractableObject = null;
             _currentPossibleInteractions = null;
         }
+
+
+        
         if (_currentPossibleInteractions != null && _currentPossibleInteractions.Length > 0)
         {
             foreach (var inputPrompt in _currentPossibleInteractions)
             {
-                if (inputPrompt.getPromptAction().WasPressedThisFrame())
+                if (inputPrompt.getPromptAction().WasPressedThisFrame() || inputPrompt.getPromptAction().WasReleasedThisFrame())
                 {
-                    currentInteractableObject.CallInteraction();
+
+                    if (inputPrompt.getPromptAction().WasPressedThisFrame())
+                        _lastActionPrompt = inputPrompt;
+                    else //release
+                        _lastActionPrompt = null;
+
+                    currentInteractableObject.CallInteraction(new InteractionEvent(inputPrompt, _player));
                     break;
                 }
             }

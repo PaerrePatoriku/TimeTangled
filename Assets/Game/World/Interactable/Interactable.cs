@@ -2,6 +2,6 @@
 
 public interface Interactable
 {
-    void Interact();
+    void Interact(InteractionEvent @event);
     InteractionPrompt[] GetInteractionPrompts();
 }

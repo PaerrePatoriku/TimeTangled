@@ -18,9 +18,9 @@ public class InteractableObject : MonoBehaviour
     {
         
     }
-    public void CallInteraction()
+    public void CallInteraction(InteractionEvent e)
     {
-        interactable.Interact();
+        interactable.Interact(e);
     }
     public void PromptInteraction(out InteractionPrompt[] prompts)
     {

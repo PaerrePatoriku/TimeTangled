@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Assets.Game.World.Interactable
 {
@@ -13,6 +15,19 @@ namespace Assets.Game.World.Interactable
 
         public string promptInputActionName;
         public string promptText;
+        public UnityEvent<InteractionEvent> onInteractEvent; 
+        public InteractableObject interactableObject;
+        
+        public InteractableObject InteractableObject
+        {
+            get => interactableObject;
+            set => interactableObject = value;
+        }
+
+        public InteractionPrompt()
+        {
+            
+        }
 
         public InputAction getPromptAction()
         {
