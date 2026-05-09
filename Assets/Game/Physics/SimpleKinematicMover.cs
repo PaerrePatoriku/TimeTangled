@@ -39,7 +39,7 @@ public class SimpleKinematicMover : MonoBehaviour
             float distanceToTarget = movementVector.magnitude;
             Vector3 movementStep = movementVector.normalized * (usedMovementSpeed * Time.deltaTime);
             //Debug.Log("REMAINING DISTANCE" + distanceToTarget);
-            if (!canMoveTo(transform.position + movementStep, movementBlockerLayers: movementBlockingLayers))
+            if (!_canMoveTo(transform.position + movementStep, movementBlockerLayers: movementBlockingLayers))
             {
                 StopMoving();
                 return;
@@ -77,10 +77,10 @@ public class SimpleKinematicMover : MonoBehaviour
             if (overrideMode)
                 StopMoving();
             targetPosition = (movementSpace == Space.World) ? position : transform.position + position;
-            startMoving();  
+            _startMoving();  
         }
     }
-    bool canMoveTo(Vector3 target, float colliderPadding = 0.005f, LayerMask movementBlockerLayers = default)
+    bool _canMoveTo(Vector3 target, float colliderPadding = 0.005f, LayerMask movementBlockerLayers = default)
     {
         drawContext.active = true;
         Vector3 colliderHalfExtents = col.bounds.extents - (Vector3.one * colliderPadding);
@@ -106,7 +106,7 @@ public class SimpleKinematicMover : MonoBehaviour
 
 
     }
-    void startMoving(float speed = 0f)
+    void _startMoving(float speed = 0f)
     {
         speed = (speed != 0) ? speed : baseMovementSpeed;
         usedMovementSpeed = speed;

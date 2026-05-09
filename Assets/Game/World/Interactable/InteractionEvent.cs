@@ -6,7 +6,8 @@ namespace Assets.Game.World.Interactable
     public enum InteractionEventType
     {
         InputPressed,
-        InputReleased
+        InputReleased,
+        InputCanceled
     }
     public class InteractionEvent
     {
@@ -28,6 +29,15 @@ namespace Assets.Game.World.Interactable
                 }
             }
 
+        }
+
+        public InteractionEvent(InteractionPrompt prompt,
+                                GameObject player,
+                                InteractionEventType interactionEventType)
+        {
+            this.prompt = prompt;
+            this.player = player;
+            this.interactionEventType = interactionEventType;
         }
     }
 }

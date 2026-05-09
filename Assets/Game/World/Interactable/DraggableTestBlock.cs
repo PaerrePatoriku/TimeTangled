@@ -1,3 +1,4 @@
+using System;
 using Assets.Game.Internal.PhysicsHelpers;
 using Assets.Game.World.Interactable;
 using Unity.VisualScripting;
@@ -9,7 +10,7 @@ public class DraggableTestBlock : MonoBehaviour
     [SerializeField]
     float dragSpeed = 3f;
     bool dragging = false;
-
+    InteractionEvent _lastActionPrompt;
     SimpleKinematicMover targetMover;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,6 +36,7 @@ public class DraggableTestBlock : MonoBehaviour
         {
             Plane testPlane = getTargetPointPlanePosition();
             Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+
             if (testPlane.Raycast(ray, out float enter))
             {
                 Vector3 point = ray.GetPoint(enter);
@@ -47,10 +49,14 @@ public class DraggableTestBlock : MonoBehaviour
     public void HandleDragObject(InteractionEvent @event)
     {
         if (@event.interactionEventType == InteractionEventType.InputPressed)
+        {
             dragging = true;
-        else
+            _lastActionPrompt = @event;
+        }
+        else if (@event.interactionEventType == InteractionEventType.InputReleased ||  @event.interactionEventType == InteractionEventType.InputCanceled)
         {
             dragging = false;
+            _lastActionPrompt = null;
             targetMover.StopMoving();
         }
     }

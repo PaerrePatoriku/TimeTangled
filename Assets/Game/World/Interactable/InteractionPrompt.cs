@@ -17,7 +17,7 @@ namespace Assets.Game.World.Interactable
         public string promptText;
         public UnityEvent<InteractionEvent> onInteractEvent; 
         public InteractableObject interactableObject;
-        
+        public bool requireMaximumDistance = true;
         public InteractableObject InteractableObject
         {
             get => interactableObject;

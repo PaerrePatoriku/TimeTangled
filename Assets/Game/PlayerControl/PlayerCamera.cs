@@ -30,10 +30,15 @@ public class PlayerCamera : MonoBehaviour
         currentPitch = transform.eulerAngles.x;
     }
 
+    Vector2 GetMouseInput()
+    {
+        Vector2 _lastMouseMovement = GameGlobals.instance.InGameInteractionActive ? _cameraMove.ReadValue<Vector2>() : Vector2.zero;
+        return _lastMouseMovement;
+    }
     // Update is called once per frame
     void Update()
     {
-        Vector2 _lastMouseMovement = _cameraMove.ReadValue<Vector2>();
+        var _lastMouseMovement = GetMouseInput();
         if (_lastMouseMovement != Vector2.zero)
        {
 

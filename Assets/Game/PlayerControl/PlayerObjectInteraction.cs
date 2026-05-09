@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.Utilities;
 
 public class PlayerObjectInteraction : MonoBehaviour
 {
-    [SerializeField]
+//    [SerializeField]
     float _interactionDistanceMax = 1f;
     [SerializeField]
     LayerMask _interactableLayerMask;
@@ -24,6 +24,7 @@ public class PlayerObjectInteraction : MonoBehaviour
         _raycastCamera = Camera.main;
         _player = this.transform.parent.gameObject;
         _lastActionPrompt = null;
+        _interactionDistanceMax = GameGlobals.instance.MaximumInteractionDistance;
     }
 
 
@@ -32,19 +33,34 @@ public class PlayerObjectInteraction : MonoBehaviour
     void Update()
     {
         
-        if (_lastActionPrompt != null && _lastActionPrompt.getPromptAction().WasReleasedThisFrame())
+        if (_lastActionPrompt != null )
         {
-            _lastActionPrompt.InteractableObject.CallInteraction(new InteractionEvent(_lastActionPrompt, _player));
-            return;
+            float distanceMagnitude = 0f;
+            if (_lastActionPrompt.requireMaximumDistance)
+            {
+                distanceMagnitude = Vector3.Distance(this.transform.position,
+                    _lastActionPrompt.interactableObject.transform.position);
+
+            }
+            if (_lastActionPrompt.getPromptAction().WasReleasedThisFrame() || 
+                (_lastActionPrompt.requireMaximumDistance && distanceMagnitude > _interactionDistanceMax))
+            {
+                _lastActionPrompt.InteractableObject.CallInteraction(new InteractionEvent(_lastActionPrompt, _player, InteractionEventType.InputCanceled));
+                _lastActionPrompt = null;                
+                return;
+            }
         }
+        //Jos ei kontrollia: ei tarvitse tarkistaa voiko minkään kanssa interactaa
+        if (!GameGlobals.instance.InGameInteractionActive)
+            return;
         
-        Vector3 startPos = _raycastCamera.transform.position;
-        Vector3 endPos = GetInteractionDirectionRay() * _interactionDistanceMax;
+        Vector3 startPos = this.transform.position;
+        Vector3 endPos = GetInteractionDirectionRay() ;
         Debug.DrawRay(startPos, endPos, Color.aliceBlue);
         RaycastHit hit;
         if (Physics.Raycast(startPos, endPos, out hit, _interactionDistanceMax, _interactableLayerMask))
         {
-            //Debug.Log(hit.collider.gameObject.name);
+            Debug.Log($"${hit.collider.gameObject.name} ${hit.distance}, ${_interactionDistanceMax}");
             InteractableObject interactableObject = hit.collider.GetComponent<InteractableObject>();
             if (interactableObject != null)
             {

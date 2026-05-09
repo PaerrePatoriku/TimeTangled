@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
 
 
-        Cursor.lockState = CursorLockMode.Locked;
+
         groundDetection = new GroundDetection<Player>(this, Vector3.down * (characterController.bounds.extents.y), 0.02f, detectionLayerMask);
     }
     private void OnGUI()
@@ -79,7 +79,8 @@ public class Player : MonoBehaviour
 
     private Vector3 GetInputVector()
     {
-        Vector2 movementVector = moveAction.ReadValue<Vector2>();
+        
+        Vector2 movementVector = GameGlobals.instance.InGameInteractionActive ? moveAction.ReadValue<Vector2>() : Vector2.zero;
         Vector3 movementVector3D = new Vector3(movementVector.x, 0, movementVector.y);
         Vector3 directionalMovementVector = (movementVector3D).normalized;
         return new Vector3(directionalMovementVector.x, 0, directionalMovementVector.z);
