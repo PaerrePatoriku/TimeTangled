@@ -16,6 +16,7 @@ public class SimpleKinematicMover : MonoBehaviour
     [SerializeField]
     LayerMask movementBlockingLayers;
 
+    private float maxDistance;
     bool isMoving = false;
     float usedMovementSpeed = 0;
     Vector3 targetPosition;
@@ -28,7 +29,7 @@ public class SimpleKinematicMover : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true; //Jos on pois p��lt�.
         col = GetComponent<BoxCollider>();
-
+        maxDistance = GameGlobals.instance.MaximumInteractionDistance;
     }
 
     private void FixedUpdate()
@@ -108,7 +109,17 @@ public class SimpleKinematicMover : MonoBehaviour
     }
     void _startMoving(float speed = 0f)
     {
+        float minDragPowerMultiplier = 0.8f;
+        float maxDragPowerMultiplier = 6f;
+        float maxDistanceMultiplier = maxDistance;
+        float distanceBetween = Vector3.Distance(transform.position, targetPosition);
+        
+        float normalizedDistanceBetween = distanceBetween / maxDistanceMultiplier;
+        
+        normalizedDistanceBetween = minDragPowerMultiplier + ((maxDragPowerMultiplier - minDragPowerMultiplier) * Mathf.Clamp(normalizedDistanceBetween, 0f, 1f));
+        
         speed = (speed != 0) ? speed : baseMovementSpeed;
+        speed *= normalizedDistanceBetween;
         usedMovementSpeed = speed;
         isMoving = true;
     }
