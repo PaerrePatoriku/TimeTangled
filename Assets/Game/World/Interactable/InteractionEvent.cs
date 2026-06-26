@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Assets.Game.World.Interactable
+namespace Game.World.Interactable
 {
     public enum InteractionEventType
     {

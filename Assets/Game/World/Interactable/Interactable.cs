@@ -1,7 +1,8 @@
-﻿using Assets.Game.World.Interactable;
-
-public interface Interactable
+﻿namespace Game.World.Interactable
 {
-    void Interact(InteractionEvent @event);
-    InteractionPrompt[] GetInteractionPrompts();
+    public interface Interactable
+    {
+        void Interact(InteractionEvent @event);
+        InteractionPrompt[] GetInteractionPrompts();
+    }
 }

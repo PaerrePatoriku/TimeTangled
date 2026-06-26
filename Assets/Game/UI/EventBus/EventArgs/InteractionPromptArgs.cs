@@ -1,16 +1,18 @@
-﻿using Assets.Game.World.Interactable;
-using System;
+﻿using Game.World.Interactable;
 
-public class EnterInteractionPromptArgs : EventArgs
+namespace Game.UI.EventBus.EventArgs
 {
-    public InteractionPrompt[] prompts { get; set; }
-
-    public EnterInteractionPromptArgs(InteractionPrompt[] prompts)
+    public class EnterInteractionPromptArgs : System.EventArgs
     {
-        this.prompts = prompts;
-    }
-}
-public class ExitInteractionPromptArgs : EventArgs
-{
+        public InteractionPrompt[] prompts { get; set; }
 
+        public EnterInteractionPromptArgs(InteractionPrompt[] prompts)
+        {
+            this.prompts = prompts;
+        }
+    }
+    public class ExitInteractionPromptArgs : System.EventArgs
+    {
+
+    }
 }

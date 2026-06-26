@@ -1,19 +1,22 @@
 ﻿using System;
 
-public class EventBus<T>
+namespace Game.UI.EventBus
 {
-    private event Action<T> OnEvent;
+    public class EventBus<T>
+    {
+        private event Action<T> OnEvent;
 
-    public void Register(Action<T> listener)
-    {
-        OnEvent += listener;
-    }
-    public void Unregister(Action<T> listener)
-    {
-        OnEvent -= listener;
-    }
-    public void Invoke(T eventArgs)
-    {
-        OnEvent?.Invoke(eventArgs);
+        public void Register(Action<T> listener)
+        {
+            OnEvent += listener;
+        }
+        public void Unregister(Action<T> listener)
+        {
+            OnEvent -= listener;
+        }
+        public void Invoke(T eventArgs)
+        {
+            OnEvent?.Invoke(eventArgs);
+        }
     }
 }

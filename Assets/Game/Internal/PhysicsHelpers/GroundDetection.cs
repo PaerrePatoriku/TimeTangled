@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Game.Internal.PhysicsHelpers
+namespace Game.Internal.PhysicsHelpers
 {
     internal class GroundDetection <T> where T : MonoBehaviour
     {
@@ -26,10 +21,10 @@ namespace Assets.Game.Internal.PhysicsHelpers
         {
             Vector3 halfExtents = new Vector3(_castWidth, _castWidth, _castWidth);
             Vector3 start = _originObject.transform.position + _castOffset + (Vector3.down * _castWidth);
-            Collider[] colliders = Physics.OverlapBox(start, halfExtents, Quaternion.identity, _layerMask);
+            Collider[] colliders = UnityEngine.Physics.OverlapBox(start, halfExtents, Quaternion.identity, _layerMask);
             _grounded = colliders.Length > 0;
-            Debug.DrawRay(start, Vector3.down *  _castWidth, Color.red);
-            Debug.DrawRay(start, halfExtents, Color.green);
+            UnityEngine.Debug.DrawRay(start, Vector3.down *  _castWidth, Color.red);
+            UnityEngine.Debug.DrawRay(start, halfExtents, Color.green);
 
         }
         public bool isGrounded()

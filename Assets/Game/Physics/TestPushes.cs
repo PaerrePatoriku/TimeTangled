@@ -1,29 +1,32 @@
 using UnityEngine;
 
-public class TestPushes : MonoBehaviour
+namespace Game.Physics
 {
-    [SerializeField]
-    GameObject pushTarget;
+    public class TestPushes : MonoBehaviour
+    {
+        [SerializeField]
+        GameObject pushTarget;
   
-    SimpleKinematicMover targetMover;
+        SimpleKinematicMover targetMover;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
+        private void OnTriggerEnter(Collider other)
         {
-            targetMover.MoveTowards(transform.TransformDirection(Vector3.forward));
+            if (other.gameObject.tag == "Player")
+            {
+                targetMover.MoveTowards(transform.TransformDirection(Vector3.forward));
+            }
         }
-    }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        targetMover = pushTarget.GetComponent<SimpleKinematicMover>();   
-    }
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
+        {
+            targetMover = pushTarget.GetComponent<SimpleKinematicMover>();   
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
         
+        }
     }
 }

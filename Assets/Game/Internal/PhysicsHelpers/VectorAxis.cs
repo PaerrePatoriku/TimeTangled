@@ -1,9 +1,7 @@
 ﻿using System;
-
 using UnityEngine;
 
-
-namespace Assets.Game.Internal.PhysicsHelpers
+namespace Game.Internal.PhysicsHelpers
 {
     public class VectorAxis
     {

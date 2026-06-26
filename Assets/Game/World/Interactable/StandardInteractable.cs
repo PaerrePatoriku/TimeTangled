@@ -1,39 +1,41 @@
-using Assets.Game.World.Interactable;
 using UnityEngine;
 
-public class StandardInteractable : MonoBehaviour, Interactable
+namespace Game.World.Interactable
 {
-    [SerializeField]
-    InteractionPrompt[] prompts;
-
-
-    public InteractionPrompt[] GetInteractionPrompts()
+    public class StandardInteractable : MonoBehaviour, Interactable
     {
-        return prompts;
-    }
+        [SerializeField]
+        InteractionPrompt[] prompts;
 
-    public void Interact(InteractionEvent @event)
-    {
-        Debug.Log("INTERACTION WAS TRIGGERED. Event onclick is " + @event.prompt.onInteractEvent + ", player is " + @event.player.name);
-        if (@event.prompt.onInteractEvent != null)
+
+        public InteractionPrompt[] GetInteractionPrompts()
         {
-
-            @event.prompt.onInteractEvent.Invoke(@event);
+            return prompts;
         }
-        
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        foreach (var prompt in prompts)
+
+        public void Interact(InteractionEvent @event)
         {
-            prompt.InteractableObject = GetComponent<InteractableObject>();
-        }
-    }
+            UnityEngine.Debug.Log("INTERACTION WAS TRIGGERED. Event onclick is " + @event.prompt.onInteractEvent + ", player is " + @event.player.name);
+            if (@event.prompt.onInteractEvent != null)
+            {
 
-    // Update is called once per frame
-    void Update()
-    {
+                @event.prompt.onInteractEvent.Invoke(@event);
+            }
         
+        }
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
+        {
+            foreach (var prompt in prompts)
+            {
+                prompt.InteractableObject = GetComponent<InteractableObject>();
+            }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+        
+        }
     }
 }
